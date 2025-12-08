@@ -1,40 +1,33 @@
 import { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { fetchResources } from "../api/resourceApi"
-import { fetchMyInteractions } from "../api/interactionApi"
+import { fetchUserAnalytics } from "../api/analyticsApi"
 import ResourceCard from "../components/ResourceCard"
 
 function DashboardPage() {
   const { user } = useAuth()
   const [recentResources, setRecentResources] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [analytics, setAnalytics] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
-  const [interactionsSummary, setInteractionsSummary] = useState({
-    views: 0,
-    saves: 0,
-    likes: 0,
-  })
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true)
       setError("")
       try {
-        const data = await fetchResources({ limit: 3 })
-        const resources = data.resources || data
-        setRecentResources(resources)
+        const [resourcesData, analyticsData] = await Promise.all([
+          fetchResources({ limit: 3 }),
+          fetchUserAnalytics(),
+        ])
 
-        const interactionsData = await fetchMyInteractions()
-        const counts = { views: 0, saves: 0, likes: 0 }
-        interactionsData.interactions?.forEach((i) => {
-          if (i.action === "view") counts.views += 1
-          if (i.action === "save") counts.saves += 1
-          if (i.action === "like") counts.likes += 1
-        })
-        setInteractionsSummary(counts)
+        const resources = resourcesData.resources || resourcesData
+        setRecentResources(resources)
+        setAnalytics(analyticsData)
       } catch (err) {
         console.error(err)
-        setError("Could not load dashboard data yet.")
+        setError("Could not load dashboard data.")
       } finally {
         setLoading(false)
       }
@@ -45,25 +38,64 @@ function DashboardPage() {
 
   return (
     <div style={{ padding: "2rem", color: "#e5e7eb" }}>
-      <h1>Welcome, {user?.name || "Student"} 18b</h1>
+      <h1>Welcome, {user?.name || "Student"} 👋</h1>
       <p style={{ opacity: 0.8 }}>
-        This is your dashboard. Soon you92ll see your learning stats and
-        personalized recommendations here.
+        Here’s a quick overview of your learning activity and resources.
       </p>
 
       <section style={{ marginTop: "2rem" }}>
-        <h2 style={{ marginBottom: "1rem" }}>Quick stats (coming soon)</h2>
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-          <div className="dash-card">Resources viewed: (later)</div>
-          <div className="dash-card">Resources saved: (later)</div>
-          <div className="dash-card">Top skill focus: (later)</div>
-        </div>
+        <h2 style={{ marginBottom: "1rem" }}>Your activity</h2>
+
+        {analytics ? (
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <div className="dash-card">
+              <strong>Total interactions</strong>
+              <div>{analytics.totalInteractions}</div>
+            </div>
+            <div className="dash-card">
+              <strong>Views</strong>
+              <div>{analytics.views}</div>
+            </div>
+            <div className="dash-card">
+              <strong>Saved resources</strong>
+              <div>{analytics.savedResourceCount}</div>
+            </div>
+            <div className="dash-card">
+              <strong>Likes</strong>
+              <div>{analytics.likes}</div>
+            </div>
+          </div>
+        ) : (
+          <p>No activity yet. Start exploring some resources!</p>
+        )}
       </section>
+
+      {analytics && analytics.topTags && analytics.topTags.length > 0 && (
+        <section style={{ marginTop: "2rem" }}>
+          <h2 style={{ marginBottom: "0.75rem" }}>Your top topics</h2>
+          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+            {analytics.topTags.map((item) => (
+              <span
+                key={item.tag}
+                style={{
+                  padding: "0.3rem 0.7rem",
+                  borderRadius: "999px",
+                  border: "1px solid #1f2933",
+                  background: "#020617",
+                  fontSize: "0.85rem",
+                }}
+              >
+                {item.tag} • {item.count}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section style={{ marginTop: "2.5rem" }}>
         <h2 style={{ marginBottom: "1rem" }}>Recently added resources</h2>
 
-        {loading && <p>Loading resources...</p>}
+        {loading && <p>Loading...</p>}
         {error && (
           <p style={{ color: "salmon", fontSize: "0.85rem" }}>{error}</p>
         )}

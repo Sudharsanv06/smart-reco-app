@@ -1,5 +1,6 @@
 const User = require("../models/User")
 const Resource = require("../models/Resource")
+const Interaction = require("../models/Interaction")
 
 function getPreferredDifficulty(year) {
   if (!year) return null
@@ -18,6 +19,15 @@ exports.getRecommendations = async (req, res) => {
     }
 
     const allResources = await Resource.find().lean()
+
+    const interactions = await Interaction.find({ userId })
+
+    const interactionMap = {}
+    interactions.forEach((i) => {
+      const key = i.resourceId.toString()
+      if (!interactionMap[key]) interactionMap[key] = []
+      interactionMap[key].push(i.action)
+    })
 
     if (allResources.length === 0) {
       return res.json({ resources: [] })
@@ -58,6 +68,13 @@ exports.getRecommendations = async (req, res) => {
       if (typeof resDoc.rating === "number") {
         score += resDoc.rating
       }
+
+      const resourceInteractions = interactionMap[resDoc._id.toString()] || []
+      resourceInteractions.forEach((action) => {
+        if (action === "save") score += 5
+        if (action === "like") score += 4
+        if (action === "view") score += 1
+      })
 
       if (resDoc.createdAt) {
         const createdTime = new Date(resDoc.createdAt).getTime()

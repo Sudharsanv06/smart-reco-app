@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { fetchResources } from "../api/resourceApi"
+import { fetchMyInteractions } from "../api/interactionApi"
 import ResourceCard from "../components/ResourceCard"
 
 function DashboardPage() {
@@ -8,6 +9,11 @@ function DashboardPage() {
   const [recentResources, setRecentResources] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [interactionsSummary, setInteractionsSummary] = useState({
+    views: 0,
+    saves: 0,
+    likes: 0,
+  })
 
   useEffect(() => {
     const loadData = async () => {
@@ -17,6 +23,15 @@ function DashboardPage() {
         const data = await fetchResources({ limit: 3 })
         const resources = data.resources || data
         setRecentResources(resources)
+
+        const interactionsData = await fetchMyInteractions()
+        const counts = { views: 0, saves: 0, likes: 0 }
+        interactionsData.interactions?.forEach((i) => {
+          if (i.action === "view") counts.views += 1
+          if (i.action === "save") counts.saves += 1
+          if (i.action === "like") counts.likes += 1
+        })
+        setInteractionsSummary(counts)
       } catch (err) {
         console.error(err)
         setError("Could not load dashboard data yet.")

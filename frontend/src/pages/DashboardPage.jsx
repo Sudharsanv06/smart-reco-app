@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useEffect, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { fetchResources } from "../api/resourceApi"
 import { fetchUserAnalytics } from "../api/analyticsApi"

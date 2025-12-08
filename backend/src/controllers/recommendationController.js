@@ -1,112 +1,83 @@
+const axios = require("axios")
 const User = require("../models/User")
 const Resource = require("../models/Resource")
 const Interaction = require("../models/Interaction")
-
-function getPreferredDifficulty(year) {
-  if (!year) return null
-  if (year <= 2) return "beginner"
-  if (year === 3) return "intermediate"
-  return "advanced"
-}
 
 exports.getRecommendations = async (req, res) => {
   try {
     const userId = req.user.id
 
-    const user = await User.findById(userId)
+    const user = await User.findById(userId).lean()
     if (!user) {
       return res.status(404).json({ message: "User not found" })
     }
 
-    const allResources = await Resource.find().lean()
-
-    const interactions = await Interaction.find({ userId })
-
-    const interactionMap = {}
-    interactions.forEach((i) => {
-      const key = i.resourceId.toString()
-      if (!interactionMap[key]) interactionMap[key] = []
-      interactionMap[key].push(i.action)
-    })
-
-    if (allResources.length === 0) {
+    const resources = await Resource.find().lean()
+    if (resources.length === 0) {
       return res.json({ resources: [] })
     }
 
-    const userInterests = user.interests || []
-    const preferredDifficulty = getPreferredDifficulty(user.year)
+    const interactions = await Interaction.find({ userId }).lean()
 
-    const scored = allResources.map((resDoc) => {
-      let score = 0
-
-      if (Array.isArray(resDoc.tags) && userInterests.length > 0) {
-        const lowerTags = resDoc.tags.map((t) => t.toLowerCase())
-        const lowerInterests = userInterests.map((i) => i.toLowerCase())
-
-        const matches = lowerTags.filter((tag) => lowerInterests.includes(tag))
-        score += matches.length * 2
-      }
-
-      if (
-        preferredDifficulty &&
-        resDoc.difficulty &&
-        resDoc.difficulty === preferredDifficulty
-      ) {
-        score += 1
-      }
-
-      if (
-        Array.isArray(resDoc.tags) &&
-        user.branch &&
-        resDoc.tags
-          .map((t) => t.toLowerCase())
-          .includes(user.branch.toLowerCase())
-      ) {
-        score += 0.5
-      }
-
-      if (typeof resDoc.rating === "number") {
-        score += resDoc.rating
-      }
-
-      const resourceInteractions = interactionMap[resDoc._id.toString()] || []
-      resourceInteractions.forEach((action) => {
-        if (action === "save") score += 5
-        if (action === "like") score += 4
-        if (action === "view") score += 1
-      })
-
-      if (resDoc.createdAt) {
-        const createdTime = new Date(resDoc.createdAt).getTime()
-        const now = Date.now()
-        const daysOld = (now - createdTime) / (1000 * 60 * 60 * 24)
-        if (daysOld < 7) score += 1
-        else if (daysOld < 30) score += 0.5
-      }
-
-      return { ...resDoc, _score: score }
-    })
-
-    scored.sort((a, b) => b._score - a._score)
-
-    const allZero = scored.every((r) => r._score === 0)
-    let finalList
-    if (allZero) {
-      finalList = allResources
-        .slice()
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    } else {
-      finalList = scored
+    const payload = {
+      user: {
+        id: user._id.toString(),
+        branch: user.branch || null,
+        year: user.year || null,
+        interests: user.interests || [],
+      },
+      resources: resources.map((r) => ({
+        id: r._id.toString(),
+        title: r.title,
+        type: r.type,
+        tags: r.tags || [],
+        difficulty: r.difficulty,
+        rating: r.rating,
+        createdAt: r.createdAt ? r.createdAt.toISOString() : null,
+      })),
+      interactions: interactions.map((i) => ({
+        resourceId: i.resourceId.toString(),
+        action: i.action,
+      })),
     }
 
-    const topN = 10
-    const recommendations = finalList.slice(0, topN)
+    const mlResponse = await axios.post(
+      "http://127.0.0.1:8000/recommend",
+      payload
+    )
 
-    return res.json({ resources: recommendations })
+    const recommendedIds = mlResponse.data.recommended_ids || []
+
+    if (!recommendedIds.length) {
+      const recent = resources
+        .slice()
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      return res.json({ resources: recent })
+    }
+
+    const orderMap = new Map()
+    recommendedIds.forEach((id, index) => orderMap.set(id, index))
+
+    const filtered = resources.filter((r) =>
+      orderMap.has(r._id.toString())
+    )
+
+    filtered.sort(
+      (a, b) =>
+        orderMap.get(a._id.toString()) - orderMap.get(b._id.toString())
+    )
+
+    return res.json({ resources: filtered })
   } catch (err) {
-    console.error("Recommendations error:", err)
-    return res
-      .status(500)
-      .json({ message: "Failed to generate recommendations" })
+    console.error("Recommendations error:", err.message)
+    try {
+      const resources = await Resource.find().sort({ createdAt: -1 }).lean()
+      return res.json({ resources })
+    } catch (innerErr) {
+      console.error("Fallback error:", innerErr.message)
+      return res
+        .status(500)
+        .json({ message: "Failed to generate recommendations" })
+    }
   }
 }

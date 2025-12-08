@@ -37,6 +37,12 @@ function Navbar() {
             >
               Dashboard
             </Link>
+            <Link
+              to="/recommendations"
+              style={{ color: "#e5e7eb", textDecoration: "none" }}
+            >
+              Recommendations
+            </Link>
             <button
               onClick={handleLogout}
               style={{

@@ -5,6 +5,8 @@ import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
 import ProtectedRoute from "./components/ProtectedRoute"
+import DashboardPage from "./pages/DashboardPage"
+import RecommendationsPage from "./pages/RecommendationsPage"
 
 function App() {
   return (
@@ -19,9 +21,15 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <div style={{ padding: "2rem" }}>
-                  <h2>Dashboard (Protected)</h2>
-                </div>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/recommendations"
+            element={
+              <ProtectedRoute>
+                <RecommendationsPage />
               </ProtectedRoute>
             }
           />

@@ -1,0 +1,8 @@
+.dash-card {
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  background: #020617;
+  border: 1px solid #1f2933;
+  min-width: 180px;
+  font-size: 0.9rem;
+}

@@ -1,4 +1,7 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { registerUser, loginUser } from "../api/authApi"
+import { useAuth } from "../context/AuthContext"
 
 function RegisterPage() {
   const [form, setForm] = useState({
@@ -8,14 +11,37 @@ function RegisterPage() {
     branch: "",
     year: "",
   })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const navigate = useNavigate()
+  const { login } = useAuth()
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("Register form submitted:", form)
+    setError("")
+    setLoading(true)
+
+    try {
+      await registerUser(form)
+      const data = await loginUser({
+        email: form.email,
+        password: form.password,
+      })
+      login(data.user, data.token)
+      navigate("/dashboard")
+    } catch (err) {
+      console.error(err)
+      setError(
+        err.response?.data?.message ||
+          "Registration failed. Please try again later."
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -74,7 +100,13 @@ function RegisterPage() {
           />
         </label>
 
-        <button type="submit">Register</button>
+        {error && (
+          <p style={{ color: "salmon", fontSize: "0.85rem" }}>{error}</p>
+        )}
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Creating account..." : "Register"}
+        </button>
       </form>
     </div>
   )

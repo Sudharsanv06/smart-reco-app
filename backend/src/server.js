@@ -23,6 +23,7 @@ app.get("/api/health", (req, res) => {
 })
 
 app.use("/api/auth", require("./routes/authRoutes"))
+app.use("/api/user", require("./routes/userRoutes"))
 app.use("/api/resources", require("./routes/resourceRoutes"))
 app.use("/api/recommendations", require("./routes/recommendationRoutes"))
 app.use("/api/interactions", require("./routes/interactionRoutes"))

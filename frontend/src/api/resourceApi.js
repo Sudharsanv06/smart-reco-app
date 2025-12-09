@@ -9,3 +9,8 @@ export async function fetchRecommendations() {
   const res = await axiosInstance.get("/recommendations")
   return res.data
 }
+
+export async function createResource(resourceData) {
+  const res = await axiosInstance.post("/resources", resourceData)
+  return res.data
+}

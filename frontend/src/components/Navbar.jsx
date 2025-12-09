@@ -31,6 +31,12 @@ function Navbar() {
               <Link to="/recommendations" className="navbar-link">
                 Recommendations
               </Link>
+              <Link to="/admin" className="navbar-link">
+                Add Resource
+              </Link>
+              <Link to="/profile" className="navbar-link">
+                Profile
+              </Link>
               <button onClick={handleLogout} className="button">
                 Logout
               </button>

@@ -1,0 +1,79 @@
+.error-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  margin: 2rem auto;
+  max-width: 500px;
+  background: #fff5f5;
+  border-radius: 12px;
+  border: 2px solid #feb2b2;
+}
+
+.error-state-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-state-title {
+  font-size: 1.5rem;
+  color: #c53030;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.error-state-message {
+  font-size: 1rem;
+  color: #742a2a;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.error-state-retry {
+  padding: 0.75rem 1.5rem;
+  background: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-state-retry:hover {
+  background: #c53030;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(197, 48, 48, 0.3);
+}
+
+.error-state-retry:active {
+  transform: translateY(0);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .error-state {
+    padding: 2rem 1rem;
+  }
+
+  .error-state-icon {
+    font-size: 3rem;
+  }
+
+  .error-state-title {
+    font-size: 1.25rem;
+  }
+
+  .error-state-message {
+    font-size: 0.9rem;
+  }
+}

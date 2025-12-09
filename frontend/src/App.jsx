@@ -7,6 +7,8 @@ import RegisterPage from "./pages/RegisterPage"
 import ProtectedRoute from "./components/ProtectedRoute"
 import DashboardPage from "./pages/DashboardPage"
 import RecommendationsPage from "./pages/RecommendationsPage"
+import AdminPage from "./pages/AdminPage"
+import ProfilePage from "./pages/ProfilePage"
 
 function App() {
   return (
@@ -30,6 +32,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <RecommendationsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             }
           />

@@ -29,29 +29,18 @@ function RecommendationsPage() {
   }, [])
 
   return (
-    <div style={{ padding: "2rem", color: "#e5e7eb" }}>
+    <div className="dashboard">
       <h1>Your recommendations</h1>
-      <p style={{ opacity: 0.8 }}>
-        These will be personalized once the recommendation engine is connected.
-      </p>
+      <p>These will be personalized once the recommendation engine is connected.</p>
 
-      {loading && <p>Loading recommendations...</p>}
-      {error && (
-        <p style={{ color: "salmon", fontSize: "0.85rem" }}>{error}</p>
-      )}
+      {loading && <div className="loading">Loading recommendations...</div>}
+      {error && <p className="error-text">{error}</p>}
 
       {!loading && !error && resources.length === 0 && (
         <p>No recommendations available yet.</p>
       )}
 
-      <div
-        style={{
-          marginTop: "1.5rem",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          gap: "1rem",
-        }}
-      >
+      <div className="resource-grid">
         {resources.map((r) => (
           <ResourceCard key={r._id || r.id} resource={r} />
         ))}

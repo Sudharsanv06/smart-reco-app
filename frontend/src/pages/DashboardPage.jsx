@@ -36,17 +36,15 @@ function DashboardPage() {
   }, [])
 
   return (
-    <div style={{ padding: "2rem", color: "#e5e7eb" }}>
+    <div className="dashboard">
       <h1>Welcome, {user?.name || "Student"} 👋</h1>
-      <p style={{ opacity: 0.8 }}>
-        Here’s a quick overview of your learning activity and resources.
-      </p>
+      <p>Here's a quick overview of your learning activity and resources.</p>
 
-      <section style={{ marginTop: "2rem" }}>
-        <h2 style={{ marginBottom: "1rem" }}>Your activity</h2>
+      <section>
+        <h2>Your activity</h2>
 
         {analytics ? (
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <div className="dash-cards">
             <div className="dash-card">
               <strong>Total interactions</strong>
               <div>{analytics.totalInteractions}</div>
@@ -70,46 +68,29 @@ function DashboardPage() {
       </section>
 
       {analytics && analytics.topTags && analytics.topTags.length > 0 && (
-        <section style={{ marginTop: "2rem" }}>
-          <h2 style={{ marginBottom: "0.75rem" }}>Your top topics</h2>
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+        <section>
+          <h3>Your top topics</h3>
+          <div className="top-tags">
             {analytics.topTags.map((item) => (
-              <span
-                key={item.tag}
-                style={{
-                  padding: "0.3rem 0.7rem",
-                  borderRadius: "999px",
-                  border: "1px solid #1f2933",
-                  background: "#020617",
-                  fontSize: "0.85rem",
-                }}
-              >
-                {item.tag} • {item.count}
+              <span key={item.tag} className="tag-chip">
+                {item.tag} • <span className="count">{item.count}</span>
               </span>
             ))}
           </div>
         </section>
       )}
 
-      <section style={{ marginTop: "2.5rem" }}>
-        <h2 style={{ marginBottom: "1rem" }}>Recently added resources</h2>
+      <section>
+        <h2>Recently added resources</h2>
 
-        {loading && <p>Loading...</p>}
-        {error && (
-          <p style={{ color: "salmon", fontSize: "0.85rem" }}>{error}</p>
-        )}
+        {loading && <div className="loading">Loading...</div>}
+        {error && <p className="error-text">{error}</p>}
 
         {!loading && !error && recentResources.length === 0 && (
           <p>No resources available yet.</p>
         )}
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "1rem",
-          }}
-        >
+        <div className="resource-grid">
           {recentResources.map((r) => (
             <ResourceCard key={r._id || r.id} resource={r} />
           ))}

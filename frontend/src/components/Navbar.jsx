@@ -11,68 +11,41 @@ function Navbar() {
   }
 
   return (
-    <nav
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "0.75rem 1.5rem",
-        background: "#020617",
-        color: "#e5e7eb",
-      }}
-    >
-      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-        <h2>SmartReco</h2>
-      </Link>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <Link to="/" className="navbar-brand">
+          SmartReco
+        </Link>
 
-      <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-        {isAuthenticated ? (
-          <>
-            <span style={{ fontSize: "0.9rem" }}>
-              {user?.name ? `Hi, ${user.name}` : "Logged in"}
-            </span>
-            <Link
-              to="/dashboard"
-              style={{ color: "#e5e7eb", textDecoration: "none" }}
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/recommendations"
-              style={{ color: "#e5e7eb", textDecoration: "none" }}
-            >
-              Recommendations
-            </Link>
-            <button
-              onClick={handleLogout}
-              style={{
-                border: "none",
-                padding: "0.35rem 0.75rem",
-                borderRadius: "6px",
-                cursor: "pointer",
-                background: "#4f46e5",
-                color: "white",
-              }}
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link
-              to="/login"
-              style={{ color: "#e5e7eb", textDecoration: "none" }}
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              style={{ color: "#e5e7eb", textDecoration: "none" }}
-            >
-              Register
-            </Link>
-          </>
-        )}
+        <div className="navbar-actions">
+          {isAuthenticated ? (
+            <>
+              <div className="navbar-user">
+                <span className="navbar-user-name">
+                  {user?.name ? `Hi, ${user.name}` : "Logged in"}
+                </span>
+              </div>
+              <Link to="/dashboard" className="navbar-link">
+                Dashboard
+              </Link>
+              <Link to="/recommendations" className="navbar-link">
+                Recommendations
+              </Link>
+              <button onClick={handleLogout} className="button">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="navbar-link">
+                Login
+              </Link>
+              <Link to="/register" className="navbar-link">
+                Register
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   )

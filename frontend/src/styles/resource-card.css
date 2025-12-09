@@ -1,0 +1,218 @@
+/* ================================================
+   RESOURCE CARD
+   ================================================ */
+
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  height: 100%;
+}
+
+.resource-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ================================================
+   CARD HEADER
+   ================================================ */
+
+.resource-card h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.resource-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.resource-card-meta .separator {
+  color: var(--text-muted);
+}
+
+.resource-card-type {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.resource-card-difficulty {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+}
+
+.resource-card-difficulty.beginner {
+  color: var(--success);
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.resource-card-difficulty.intermediate {
+  color: var(--warning);
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+.resource-card-difficulty.advanced {
+  color: var(--error);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* ================================================
+   TAGS
+   ================================================ */
+
+.resource-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.resource-tag {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.resource-tag:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background-color: rgba(96, 165, 250, 0.1);
+}
+
+/* ================================================
+   RATING (OPTIONAL)
+   ================================================ */
+
+.resource-card-rating {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.resource-card-rating .stars {
+  color: var(--warning);
+}
+
+/* ================================================
+   CARD ACTIONS
+   ================================================ */
+
+.resource-card-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: auto;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.resource-card-actions button {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.resource-card-actions button:first-child {
+  background-color: var(--accent);
+  color: white;
+}
+
+.resource-card-actions button:first-child:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.4);
+}
+
+.resource-card-actions button:last-child {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+}
+
+.resource-card-actions button:last-child:hover:not(:disabled) {
+  background-color: var(--bg-secondary);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.resource-card-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.resource-card-actions button.saved {
+  background-color: rgba(16, 185, 129, 0.15);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+/* ================================================
+   CARD VARIANTS
+   ================================================ */
+
+.resource-card.featured {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(96, 165, 250, 0.05) 100%);
+}
+
+.resource-card.featured::before {
+  content: "Featured";
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--accent);
+  border-radius: var(--radius-sm);
+}
+
+/* ================================================
+   RESPONSIVE - RESOURCE CARD
+   ================================================ */
+
+@media (max-width: 480px) {
+  .resource-card {
+    padding: var(--spacing-lg);
+  }
+
+  .resource-card h3 {
+    font-size: 1rem;
+  }
+
+  .resource-card-actions {
+    flex-direction: column;
+  }
+
+  .resource-card-actions button {
+    width: 100%;
+  }
+}

@@ -1,90 +1,111 @@
-/* ================================================
-   AUTHENTICATION PAGES
-   ================================================ */
+/* ========= auth.css ========= */
 
 .auth-container {
+  min-height: calc(100vh - 64px);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: var(--spacing-lg);
-  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f35 100%);
 }
 
 .auth-form {
   width: 100%;
   max-width: 420px;
-  padding: var(--spacing-2xl);
-  background-color: var(--bg-secondary);
+  background: var(--surface);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
   box-shadow: var(--shadow-xl);
 }
 
 .auth-form h2 {
-  margin-bottom: var(--spacing-xs);
   font-size: 1.875rem;
   font-weight: 700;
+  margin-bottom: 0.5rem;
   text-align: center;
   color: var(--text-primary);
 }
 
 .auth-form .subtitle {
-  margin-bottom: var(--spacing-xl);
-  font-size: 0.875rem;
   text-align: center;
   color: var(--text-secondary);
-}
-
-.auth-form form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
-.auth-form .input-group {
-  margin-bottom: 0;
+  margin-bottom: 2rem;
 }
 
 .auth-form label {
-  display: block;
-  margin-bottom: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
-.auth-form input,
-.auth-form select {
-  width: 100%;
+.auth-form input {
   padding: 0.75rem 1rem;
-  font-size: 0.9375rem;
-  background-color: var(--bg-primary);
+  font-size: 1rem;
+  background: var(--bg-primary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  color: var(--text-primary);
+  transition: var(--transition);
 }
 
-.auth-form input:focus,
-.auth-form select:focus {
+.auth-form input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+  box-shadow: 0 0 0 3px var(--accent-light);
+  outline: none;
+}
+
+.auth-form input::placeholder {
+  color: var(--text-muted);
+}
+
+.auth-form select {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.auth-form textarea {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  resize: vertical;
+  min-height: 80px;
 }
 
 .auth-form button[type="submit"] {
   width: 100%;
   padding: 0.875rem;
-  margin-top: var(--spacing-sm);
   font-size: 1rem;
   font-weight: 600;
-  background-color: var(--accent);
+  margin-top: 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
   border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .auth-form button[type="submit"]:hover:not(:disabled) {
-  background-color: var(--accent-hover);
+  background: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(96, 165, 250, 0.3);
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-form button[type="submit"]:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .auth-form button[type="submit"]:disabled {
@@ -94,71 +115,98 @@
 }
 
 .auth-form .error-message {
-  padding: var(--spacing-sm) var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-  font-size: 0.875rem;
-  color: var(--error);
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: var(--error-light);
+  border: 1px solid var(--error);
   border-radius: var(--radius-md);
+  color: var(--error);
+  font-size: 0.875rem;
   text-align: center;
 }
 
-.auth-form .auth-footer {
-  margin-top: var(--spacing-lg);
-  padding-top: var(--spacing-lg);
-  border-top: 1px solid var(--border-color);
+.auth-form .success-message {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: var(--success-light);
+  border: 1px solid var(--success);
+  border-radius: var(--radius-md);
+  color: var(--success);
+  font-size: 0.875rem;
   text-align: center;
+}
+
+.auth-form p {
+  text-align: center;
+  margin-top: 1.5rem;
   font-size: 0.875rem;
   color: var(--text-secondary);
 }
 
-.auth-form .auth-footer a {
-  font-weight: 600;
+.auth-form p a {
   color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition);
 }
 
-.auth-form .auth-footer a:hover {
+.auth-form p a:hover {
   color: var(--accent-hover);
   text-decoration: underline;
 }
 
-.auth-form .form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-md);
+.home-container {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f35 100%);
 }
 
-.auth-form .loading-spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+.home-container h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.home-container p {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.8;
 }
 
-/* ================================================
-   RESPONSIVE - AUTH
-   ================================================ */
+.home-container .button {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0.5rem;
+}
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .auth-form {
-    padding: var(--spacing-xl);
+    padding: 2rem 1.5rem;
   }
 
-  .auth-form h2 {
-    font-size: 1.5rem;
+  .home-container h1 {
+    font-size: 2rem;
   }
 
-  .auth-form .form-row {
-    grid-template-columns: 1fr;
+  .home-container p {
+    font-size: 1rem;
+  }
+
+  .home-container .button {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
   }
 }

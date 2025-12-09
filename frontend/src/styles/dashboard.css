@@ -1,78 +1,71 @@
-/* ================================================
-   DASHBOARD PAGE
-   ================================================ */
+/* ========= dashboard.css ========= */
 
 .dashboard {
-  flex: 1;
-  padding: var(--spacing-2xl) var(--spacing-lg);
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  width: 100%;
+  padding: 3rem 1.5rem;
+  min-height: calc(100vh - 64px);
 }
 
 .dashboard h1 {
-  margin-bottom: var(--spacing-sm);
   font-size: 2.25rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
 }
 
 .dashboard > p {
-  margin-bottom: var(--spacing-2xl);
   font-size: 1rem;
   color: var(--text-secondary);
+  margin-bottom: 2.5rem;
 }
 
 .dashboard section {
-  margin-bottom: var(--spacing-2xl);
+  margin-bottom: 3rem;
 }
 
-.dashboard section h2 {
-  margin-bottom: var(--spacing-lg);
+.dashboard h2 {
   font-size: 1.5rem;
   font-weight: 600;
+  margin-bottom: 1.5rem;
   color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.dashboard section h3 {
-  margin-bottom: var(--spacing-md);
+.dashboard h3 {
   font-size: 1.25rem;
   font-weight: 600;
+  margin-bottom: 1rem;
   color: var(--text-primary);
 }
-
-/* ================================================
-   DASHBOARD CARDS
-   ================================================ */
 
 .dash-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-2xl);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
 }
 
 .dash-card {
-  padding: var(--spacing-xl);
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  background: var(--surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  transition: all var(--transition-base);
-  text-align: center;
+  padding: 1.75rem;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .dash-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
-  box-shadow: 0 8px 24px rgba(96, 165, 250, 0.15);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
 }
 
 .dash-card strong {
-  display: block;
-  margin-bottom: var(--spacing-sm);
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-secondary);
@@ -81,149 +74,91 @@
 }
 
 .dash-card div {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--text-primary);
+  line-height: 1;
 }
-
-.dash-card.highlight {
-  background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%);
-  border-color: var(--accent);
-}
-
-/* ================================================
-   TOP TAGS / TOPICS
-   ================================================ */
 
 .top-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  gap: 0.75rem;
 }
 
 .tag-chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-sm) var(--spacing-md);
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-primary);
-  background-color: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-full);
-  transition: all var(--transition-fast);
+  transition: var(--transition);
 }
 
 .tag-chip:hover {
-  background-color: var(--bg-secondary);
+  background: var(--bg-tertiary);
   border-color: var(--accent);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .tag-chip .count {
-  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+  background: var(--accent-light);
   color: var(--accent);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.75rem;
 }
-
-/* ================================================
-   RESOURCE GRID
-   ================================================ */
 
 .resource-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
 }
-
-/* ================================================
-   EMPTY STATES
-   ================================================ */
-
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-2xl);
-  text-align: center;
-  color: var(--text-secondary);
-}
-
-.empty-state-icon {
-  margin-bottom: var(--spacing-lg);
-  font-size: 3rem;
-  opacity: 0.5;
-}
-
-.empty-state h3 {
-  margin-bottom: var(--spacing-sm);
-  font-size: 1.25rem;
-  color: var(--text-primary);
-}
-
-.empty-state p {
-  margin-bottom: var(--spacing-lg);
-  font-size: 0.9375rem;
-  color: var(--text-muted);
-}
-
-/* ================================================
-   LOADING STATE
-   ================================================ */
-
-.dashboard .loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-2xl);
-  gap: var(--spacing-md);
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--border-color);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* ================================================
-   RESPONSIVE - DASHBOARD
-   ================================================ */
 
 @media (max-width: 768px) {
   .dashboard {
-    padding: var(--spacing-xl) var(--spacing-md);
+    padding: 2rem 1rem;
   }
 
   .dashboard h1 {
     font-size: 1.875rem;
   }
 
+  .dashboard h2 {
+    font-size: 1.25rem;
+  }
+
   .dash-cards {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--spacing-md);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
   .dash-card {
-    padding: var(--spacing-lg);
+    padding: 1.25rem;
   }
 
   .dash-card div {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   .resource-grid {
     grid-template-columns: 1fr;
-    gap: var(--spacing-md);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dash-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard h1 {
+    font-size: 1.5rem;
   }
 }
